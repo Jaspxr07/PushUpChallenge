@@ -8,59 +8,67 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-image: url(images/bgi.png);
-            background-size: cover;
+            background: linear-gradient(180deg, #E85A0A 0%, #F47B30 30%, #F9A96A 65%, #FCD5B0 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 20px 120px;
-            gap: 16px;
-            font-family: sans-serif;
+            padding: 30px 20px 160px;
+            gap: 0px;
+            font-family: 'Arial Black', 'Impact', sans-serif;
+        }
+
+        /* Thomas More logo */
+        .logo-wrapper {
+            margin-bottom: 10px;
+        }
+        .logo-wrapper img {
+            width: 110px;
+        }
+
+        /* Push-up Challenge banner */
+        .banner-wrapper {
+            margin-bottom: 6px;
+        }
+        .banner-wrapper img {
+            width: 260px;
         }
 
         h1 {
-            color: white;
-            font-size: 2em;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            color: #1a1a1a;
+            font-size: 2.8em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 10px 0 18px;
+            font-family: 'Arial Black', Impact, sans-serif;
         }
 
         .lijst {
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .entry {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(6px);
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(8px);
             border-radius: 14px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             padding: 10px 14px;
-            color: white;
+            color: #1a1a1a;
         }
-
-        .rank {
-            font-size: 1.6em;
-            font-weight: 700;
-            min-width: 36px;
-            text-align: center;
-            color: orange;
-        }
-        .rank-1 { color: gold; font-size: 2em; }
-        .rank-2 { color: silver; }
-        .rank-3 { color: #cd7f32; }
 
         .foto {
             width: 64px;
             height: 64px;
             border-radius: 10px;
             object-fit: cover;
-            border: 2px solid white;
+            border: 2px solid rgba(255,255,255,0.7);
             flex-shrink: 0;
         }
 
@@ -68,7 +76,7 @@
             width: 64px;
             height: 64px;
             border-radius: 10px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(200,200,200,0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -76,20 +84,71 @@
             flex-shrink: 0;
         }
 
-        .info { display: flex; flex-direction: column; gap: 2px; }
-        .score { font-size: 1.4em; font-weight: 700; }
-        .datum { font-size: 0.85em; opacity: 0.75; }
+        .info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+
+        .datum {
+            font-size: 0.85em;
+            font-weight: 700;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+
+        .score {
+            font-size: 1.8em;
+            font-weight: 900;
+            color: #1a1a1a;
+            font-family: 'Arial Black', Impact, sans-serif;
+            letter-spacing: 1px;
+            margin-left: auto;
+            padding-right: 4px;
+        }
 
         .leeg {
-            color: white;
-            opacity: 0.7;
+            color: #333;
+            opacity: 0.8;
             text-align: center;
             margin-top: 40px;
             font-size: 1.1em;
+            font-family: Arial, sans-serif;
         }
 
+        /* Bottom instruction */
+        .instructie-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 20px 20px;
+            gap: 8px;
+        }
+
+        .instructie-bottom img.gesture-icon {
+            width: 44px;
+            filter: brightness(0);
+        }
+
+        .instructie-bottom p {
+            font-family: 'Arial Black', Impact, sans-serif;
+            font-weight: 900;
+            font-size: 1em;
+            color: #1a1a1a;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        /* Keep game link button */
         .instructie {
-            background-color: orange;
+            background-color: #E85A0A;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -99,6 +158,7 @@
             align-items: center;
             position: fixed;
             bottom: 30px;
+            right: 20px;
             padding: 12px;
         }
         .instructie a {
@@ -113,58 +173,68 @@
         .instructie img { width: 40px; }
 
         .wis-btn {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.4);
-            color: white;
-            border-radius: 8px;
-            padding: 6px 16px;
+            background: rgba(255,255,255,0.25);
+            border: 1.5px solid rgba(255,255,255,0.6);
+            color: #1a1a1a;
+            border-radius: 20px;
+            padding: 7px 20px;
             font-size: 0.85em;
             cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-weight: 700;
+            margin-bottom: 14px;
         }
 
         #status {
             position: fixed;
-            bottom: 100px;
+            bottom: 140px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.4);
             color: white;
             padding: 6px 16px;
             border-radius: 20px;
             font-size: 0.9em;
             white-space: nowrap;
+            font-family: Arial, sans-serif;
+            display: none;
         }
 
         #webcam-container {
             position: fixed;
-            bottom: 100px;
+            bottom: 200px;
             right: 20px;
             opacity: 0;
             pointer-events: none;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <h1>🏆 Klassement</h1>
+
+    <div class="logo-wrapper">
+        <img src="images/thomas-more-logo.png" alt="Thomas More" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <div style="display:none; background:#1a1a1a; color:white; font-size:0.7em; font-weight:900; border-radius:8px; padding:6px 12px; text-align:center; letter-spacing:1px;">THOMAS<br>MORE</div>
+    </div>
+
+   
+    <div class="banner-wrapper">
+        <img src="images/pushup-banner.png" alt="Push-Up Challenge" onerror="this.style.display='none'">
+    </div>
+
+    <h1>Klassement</h1>
+
     <button class="wis-btn" onclick="wisKlassement()">Klassement wissen</button>
 
     <div class="lijst" id="lijst"></div>
 
-    <div id="status">Webcam laden...</div>
-    <div id="webcam-container"></div>
-
-    <div class="instructie">
-        <a href="game.html">
-            <img src="images/Hands.svg" alt="">
-            <p>Om te starten</p>
-        </a>
+    <div class="instructie-bottom">
+        <img class="gesture-icon" src="images/Hands.svg" alt="Spreid armen" onerror="this.outerHTML='<span style=font-size:2em>🙌</span>'">
+        <p>Spreid je armen uit om<br>opnieuw te beginnen.</p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
     <script>
-        // Klassement laden
         function laadKlassement() {
             const lijst = document.getElementById('lijst');
             const data = JSON.parse(localStorage.getItem('klassement') || '[]');
@@ -176,20 +246,17 @@
 
             lijst.innerHTML = '';
             data.forEach((entry, i) => {
-                const rankClass = i === 0 ? 'rank rank-1' : i === 1 ? 'rank rank-2' : i === 2 ? 'rank rank-3' : 'rank';
-                const rankSymbol = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
                 const fotoHtml = entry.photo
                     ? `<img class="foto" src="${entry.photo}" alt="foto">`
                     : `<div class="geen-foto">🙂</div>`;
 
                 lijst.innerHTML += `
                     <div class="entry">
-                        <div class="${rankClass}">${rankSymbol}</div>
                         ${fotoHtml}
                         <div class="info">
-                            <span class="score">${entry.score} push-ups</span>
                             <span class="datum">${entry.date}</span>
                         </div>
+                        <span class="score">${entry.score}</span>
                     </div>
                 `;
             });
@@ -203,48 +270,6 @@
         }
 
         laadKlassement();
-
-        // Pose detectie voor start
-        const MODEL_URL = "https://teachablemachine.withgoogle.com/models/yXB9hl_GA/";
-        let model, webcam;
-        const CONFIDENCE_THRESHOLD = 0.85;
-        let startHoldFrames = 0;
-        const HOLD_FRAMES_NEEDED = 15;
-
-        async function init() {
-            model = await tmPose.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
-            webcam = new tmPose.Webcam(200, 200, true);
-            await webcam.setup();
-            await webcam.play();
-            document.getElementById("webcam-container").appendChild(webcam.canvas);
-            document.getElementById("status").textContent = "Maak het startgebaar om opnieuw te spelen";
-            window.requestAnimationFrame(loop);
-        }
-
-        async function loop() {
-            webcam.update();
-            await predict();
-            window.requestAnimationFrame(loop);
-        }
-
-        async function predict() {
-            const { posenetOutput } = await model.estimatePose(webcam.canvas);
-            const prediction = await model.predict(posenetOutput);
-            const startClass = prediction.find(p => p.className.trim().toLowerCase() === "start");
-            if (startClass && startClass.probability >= CONFIDENCE_THRESHOLD) {
-                startHoldFrames++;
-                const pct = Math.min(100, Math.round((startHoldFrames / HOLD_FRAMES_NEEDED) * 100));
-                document.getElementById("status").textContent = `Start gebaar gedetecteerd... ${pct}%`;
-                if (startHoldFrames >= HOLD_FRAMES_NEEDED) {
-                    window.location.href = "game.html";
-                }
-            } else {
-                startHoldFrames = 0;
-                document.getElementById("status").textContent = "Maak het startgebaar om opnieuw te spelen";
-            }
-        }
-
-        window.addEventListener("load", init);
     </script>
 
 </body>
