@@ -20,7 +20,7 @@
             background: #1a1a1a;
         }
 
-        /* ── Webcam fullscreen background ── */
+
         #canvas {
             position: fixed;
             inset: 0;
@@ -30,7 +30,7 @@
             display: block;
         }
 
-        /* ── Orange gradient overlay fading from top ── */
+      
         .top-overlay {
             position: fixed;
             inset: 0;
@@ -46,7 +46,7 @@
             z-index: 5;
         }
 
-        /* ── Bottom gradient overlay for text readability ── */
+
         .bottom-overlay {
             position: fixed;
             bottom: 0;
@@ -63,7 +63,7 @@
             z-index: 5;
         }
 
-        /* ── Top content: logo + challenge header ── */
+
         .top-content {
             position: fixed;
             top: 0;
@@ -83,13 +83,13 @@
             margin-bottom: 4px;
         }
 
-        /* Push-up challenge logo image */
+        
         .challenge-logo {
             width: min(75vw, 300px);
             filter: drop-shadow(0 4px 12px rgba(0,0,0,0.35));
         }
 
-        /* Subtitle text */
+        
         .subtitle {
             font-size: clamp(0.9em, 3.5vw, 1.05em);
             font-weight: 900;
@@ -102,7 +102,7 @@
             margin-top: -4px;
         }
 
-        /* ── Bottom stats ── */
+      
         .bottom-stats {
             position: fixed;
             bottom: 0;
@@ -127,7 +127,7 @@
             letter-spacing: 0;
         }
 
-        /* ── Labels (hidden, optional debug) ── */
+        
         #label-container {
             position: fixed;
             top: 10px;
@@ -148,7 +148,7 @@
             backdrop-filter: blur(4px);
         }
 
-        /* ── Flash effect ── */
+        
         #flash {
             position: fixed;
             inset: 0;
@@ -164,24 +164,24 @@
 
     <div id="flash"></div>
 
-    <!-- Webcam fullscreen background -->
+    
     <canvas id="canvas"></canvas>
 
-    <!-- Orange gradient overlays -->
+   
     <div class="top-overlay"></div>
     <div class="bottom-overlay"></div>
 
-    <!-- Top: Logo + title -->
+
     <div class="top-content">
         <img src="images/logo.png" alt="Thomas More" class="thomas-more-logo">
         <img src="images/It2.png" alt="Push-Up Challenge" class="challenge-logo" onerror="this.style.display='none'">
         <p class="subtitle">Positioneer jezelf op de mat.</p>
     </div>
 
-    <!-- Debug labels top right -->
+
     <div id="label-container"></div>
 
-    <!-- Bottom: Stats -->
+
     <div class="bottom-stats">
         <div class="stat-line">Tijd over: <span id="timer">60</span>s</div>
         <div class="stat-line">Push-ups: <span id="pushupCount">0</span></div>
