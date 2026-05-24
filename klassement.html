@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klassement</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-image: url(images/bgi.png);
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px 120px;
+            gap: 16px;
+            font-family: sans-serif;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2em;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .lijst {
+            width: 100%;
+            max-width: 460px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .entry {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(6px);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 14px;
+            color: white;
+        }
+
+        .rank {
+            font-size: 1.6em;
+            font-weight: 700;
+            min-width: 36px;
+            text-align: center;
+            color: orange;
+        }
+        .rank-1 { color: gold; font-size: 2em; }
+        .rank-2 { color: silver; }
+        .rank-3 { color: #cd7f32; }
+
+        .foto {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid white;
+            flex-shrink: 0;
+        }
+
+        .geen-foto {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            flex-shrink: 0;
+        }
+
+        .info { display: flex; flex-direction: column; gap: 2px; }
+        .score { font-size: 1.4em; font-weight: 700; }
+        .datum { font-size: 0.85em; opacity: 0.75; }
+
+        .leeg {
+            color: white;
+            opacity: 0.7;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1.1em;
+        }
+
+        .instructie {
+            background-color: orange;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 150px;
+            border-radius: 20px;
+            color: white;
+            align-items: center;
+            position: fixed;
+            bottom: 30px;
+            padding: 12px;
+        }
+        .instructie a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-size: 1em;
+        }
+        .instructie img { width: 40px; }
+
+        .wis-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            border-radius: 8px;
+            padding: 6px 16px;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+
+        #status {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+
+        #webcam-container {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🏆 Klassement</h1>
+    <button class="wis-btn" onclick="wisKlassement()">Klassement wissen</button>
+
+    <div class="lijst" id="lijst"></div>
+
+    <div id="status">Webcam laden...</div>
+    <div id="webcam-container"></div>
+
+    <div class="instructie">
+        <a href="game.html">
+            <img src="images/Hands.svg" alt="">
+            <p>Om te starten</p>
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
+    <script>
+        // Klassement laden
+        function laadKlassement() {
+            const lijst = document.getElementById('lijst');
+            const data = JSON.parse(localStorage.getItem('klassement') || '[]');
+
+            if (data.length === 0) {
+                lijst.innerHTML = '<p class="leeg">Nog geen scores. Speel een ronde!</p>';
+                return;
+            }
+
+            lijst.innerHTML = '';
+            data.forEach((entry, i) => {
+                const rankClass = i === 0 ? 'rank rank-1' : i === 1 ? 'rank rank-2' : i === 2 ? 'rank rank-3' : 'rank';
+                const rankSymbol = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
+                const fotoHtml = entry.photo
+                    ? `<img class="foto" src="${entry.photo}" alt="foto">`
+                    : `<div class="geen-foto">🙂</div>`;
+
+                lijst.innerHTML += `
+                    <div class="entry">
+                        <div class="${rankClass}">${rankSymbol}</div>
+                        ${fotoHtml}
+                        <div class="info">
+                            <span class="score">${entry.score} push-ups</span>
+                            <span class="datum">${entry.date}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function wisKlassement() {
+            if (confirm('Ben je zeker dat je het klassement wil wissen?')) {
+                localStorage.removeItem('klassement');
+                laadKlassement();
+            }
+        }
+
+        laadKlassement();
+
+        // Pose detectie voor start
+        const MODEL_URL = "https://teachablemachine.withgoogle.com/models/yXB9hl_GA/";
+        let model, webcam;
+        const CONFIDENCE_THRESHOLD = 0.85;
+        let startHoldFrames = 0;
+        const HOLD_FRAMES_NEEDED = 15;
+
+        async function init() {
+            model = await tmPose.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
+            webcam = new tmPose.Webcam(200, 200, true);
+            await webcam.setup();
+            await webcam.play();
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            document.getElementById("status").textContent = "Maak het startgebaar om opnieuw te spelen";
+            window.requestAnimationFrame(loop);
+        }
+
+        async function loop() {
+            webcam.update();
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            const { posenetOutput } = await model.estimatePose(webcam.canvas);
+            const prediction = await model.predict(posenetOutput);
+            const startClass = prediction.find(p => p.className.trim().toLowerCase() === "start");
+            if (startClass && startClass.probability >= CONFIDENCE_THRESHOLD) {
+                startHoldFrames++;
+                const pct = Math.min(100, Math.round((startHoldFrames / HOLD_FRAMES_NEEDED) * 100));
+                document.getElementById("status").textContent = `Start gebaar gedetecteerd... ${pct}%`;
+                if (startHoldFrames >= HOLD_FRAMES_NEEDED) {
+                    window.location.href = "game.html";
+                }
+            } else {
+                startHoldFrames = 0;
+                document.getElementById("status").textContent = "Maak het startgebaar om opnieuw te spelen";
+            }
+        }
+
+        window.addEventListener("load", init);
+    </script>
+
+</body>
+</html>
