@@ -234,6 +234,11 @@
         <p>Spreid je armen uit om<br>opnieuw te beginnen.</p>
     </div>
 
+    <div id="status" style="position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.4); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.9em; white-space: nowrap; font-family: Arial, sans-serif; display: none;">Webcam laden...</div>
+    <div id="webcam-container" style="position: fixed; bottom: 200px; right: 20px; opacity: 0; pointer-events: none;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
     <script>
         function laadKlassement() {
             const lijst = document.getElementById('lijst');
@@ -270,6 +275,55 @@
         }
 
         laadKlassement();
+
+        // Pose detectie voor start
+        const MODEL_URL = "https://teachablemachine.withgoogle.com/models/yXB9hl_GA/";
+        let model, webcam;
+        const CONFIDENCE_THRESHOLD = 0.85;
+        let startHoldFrames = 0;
+        const HOLD_FRAMES_NEEDED = 15;
+
+        async function initPose() {
+            try {
+                model = await tmPose.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
+                webcam = new tmPose.Webcam(200, 200, true);
+                await webcam.setup();
+                await webcam.play();
+                document.getElementById("webcam-container").appendChild(webcam.canvas);
+                document.getElementById("status").style.display = "block";
+                document.getElementById("status").textContent = "Spreid je armen om opnieuw te spelen";
+                window.requestAnimationFrame(loop);
+            } catch (error) {
+                console.error("Fout bij laden model:", error);
+            }
+        }
+
+        async function loop() {
+            if (!webcam) return;
+            webcam.update();
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            if (!model || !webcam) return;
+            const { posenetOutput } = await model.estimatePose(webcam.canvas);
+            const prediction = await model.predict(posenetOutput);
+            const startClass = prediction.find(p => p.className.trim().toLowerCase() === "start");
+            if (startClass && startClass.probability >= CONFIDENCE_THRESHOLD) {
+                startHoldFrames++;
+                const pct = Math.min(100, Math.round((startHoldFrames / HOLD_FRAMES_NEEDED) * 100));
+                document.getElementById("status").textContent = `Start gebaar gedetecteerd... ${pct}%`;
+                if (startHoldFrames >= HOLD_FRAMES_NEEDED) {
+                    window.location.href = "game.html";
+                }
+            } else {
+                startHoldFrames = 0;
+                document.getElementById("status").textContent = "Spreid je armen om opnieuw te spelen";
+            }
+        }
+
+        window.addEventListener("load", initPose);
     </script>
 
 </body>
